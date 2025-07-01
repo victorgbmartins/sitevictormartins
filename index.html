@@ -1,0 +1,459 @@
+# Gerar o arquivo index.html com o conteúdo do site criado anteriormente
+conteudo_html = """
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Victor Martins | Designer Gráfico & IA</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Poppins:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #11131a;
+      --card: #191c26;
+      --primary: #715cff;
+      --primary-alt: #1f1e5d;
+      --text: #f3f3f6;
+      --muted: #b7b7c9;
+      --accent: #00e0ff;
+      --border-radius: 18px;
+      --transition: 0.4s cubic-bezier(.7,.3,.1,1);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Montserrat', 'Poppins', 'Roboto', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 32px 8vw 12px 8vw;
+      background: linear-gradient(90deg, #11131a 75%, var(--primary-alt) 100%);
+      border-bottom: 1px solid #26283c;
+      position: sticky; top: 0; z-index: 99;
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 2rem;
+      letter-spacing: 2px;
+      color: var(--primary);
+      text-shadow: 0 2px 12px #715cff44;
+    }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 2.2rem;
+      font-size: 1rem;
+      transition: color var(--transition);
+      position: relative;
+    }
+    nav a.active,
+    nav a:hover {
+      color: var(--accent);
+    }
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 8vw 64px 8vw;
+      display: flex;
+      flex-direction: column;
+      gap: 68px;
+    }
+    /* Hero */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 42px;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .hero-img {
+      width: 190px;
+      height: 190px;
+      border-radius: 100px;
+      object-fit: cover;
+      background: #23232e;
+      box-shadow: 0 6px 38px #715cff44;
+      border: 3px solid var(--primary);
+      animation: float 3.2s ease-in-out infinite alternate;
+    }
+    @keyframes float {
+      to { transform: translateY(-18px) scale(1.03);}
+    }
+    .hero-content {
+      flex: 1 1 300px;
+      min-width: 240px;
+    }
+    .hero-content h1 {
+      font-size: 2.7rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .hero-content h2 {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .hero-content p {
+      color: var(--muted);
+      font-size: 1.07rem;
+      margin-bottom: 12px;
+    }
+    /* Section titles */
+    .section-title {
+      font-size: 2rem;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 14px;
+      letter-spacing: 1.2px;
+      text-shadow: 0 3px 16px #715cff22;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title::before {
+      content: '';
+      width: 8px;
+      height: 30px;
+      border-radius: 4px;
+      background: linear-gradient(120deg, var(--primary) 70%, var(--accent) 100%);
+      display: inline-block;
+      margin-right: 10px;
+    }
+    section { margin-bottom: 24px; }
+    /* Sobre mim */
+    .about-me {
+      background: var(--card);
+      border-radius: var(--border-radius);
+      padding: 28px 28px 18px 28px;
+      box-shadow: 0 2px 28px #1f1e5d18;
+    }
+    /* Portfólio */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 22px;
+      margin-top: 18px;
+    }
+    .portfolio-item {
+      background: var(--card);
+      border-radius: var(--border-radius);
+      box-shadow: 0 2px 24px #715cff19;
+      overflow: hidden;
+      transition: transform .24s;
+    }
+    .portfolio-item:hover { transform: scale(1.04);}
+    .portfolio-item img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+      border-bottom: 2px solid var(--primary);
+      transition: filter .22s;
+    }
+    .portfolio-item:hover img { filter: brightness(1.1) contrast(1.1);}
+    .portfolio-item .desc {
+      padding: 12px 14px;
+      color: var(--text);
+      font-size: 1.03rem;
+    }
+    /* Timeline (Experiência Profissional) */
+    .timeline {
+      border-left: 3px solid var(--primary);
+      padding-left: 26px;
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .timeline-entry {
+      position: relative;
+    }
+    .timeline-entry::before {
+      content: '';
+      position: absolute;
+      left: -35px;
+      top: 6px;
+      width: 18px;
+      height: 18px;
+      background: linear-gradient(120deg, var(--primary), var(--accent));
+      border-radius: 50%;
+      box-shadow: 0 0 16px var(--primary);
+      border: 3px solid var(--bg);
+    }
+    .timeline-entry span {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1rem;
+    }
+    /* Habilidades */
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .skill-badge {
+      background: linear-gradient(120deg, var(--primary), var(--accent));
+      color: #fff;
+      padding: 9px 20px;
+      border-radius: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-size: 1rem;
+      box-shadow: 0 2px 12px #1f1e5d22;
+      margin-bottom: 4px;
+      opacity: .92;
+      transition: opacity .23s;
+    }
+    .skill-badge:hover { opacity: 1;}
+    /* Depoimentos */
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 26px;
+      margin-top: 18px;
+    }
+    .testimonial-card {
+      background: var(--card);
+      border-radius: var(--border-radius);
+      padding: 18px 18px 10px 18px;
+      box-shadow: 0 2px 24px #1f1e5d18;
+      position: relative;
+      border-left: 4px solid var(--primary);
+    }
+    .testimonial-card .client {
+      font-weight: 700;
+      color: var(--primary);
+      margin-top: 10px;
+      font-size: 1.1rem;
+    }
+    .testimonial-card .role {
+      color: var(--muted);
+      font-size: .97rem;
+      margin-bottom: 3px;
+    }
+    /* Contato */
+    .contact-section {
+      background: var(--card);
+      border-radius: var(--border-radius);
+      padding: 28px 28px 20px 28px;
+      box-shadow: 0 2px 28px #1f1e5d18;
+      max-width: 520px;
+      margin: 0 auto;
+      margin-top: 32px;
+    }
+    .contact-section form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 18px;
+    }
+    .contact-section input,
+    .contact-section textarea {
+      border: none;
+      outline: none;
+      padding: 11px 14px;
+      border-radius: 7px;
+      background: #23232e;
+      color: #fff;
+      font-size: 1rem;
+      resize: vertical;
+      font-family: inherit;
+      box-shadow: 0 2px 14px #1f1e5d14;
+      transition: border .19s;
+    }
+    .contact-section input:focus,
+    .contact-section textarea:focus {
+      border: 1.5px solid var(--primary);
+    }
+    .contact-section button {
+      padding: 11px 0;
+      background: linear-gradient(120deg, var(--primary), var(--accent));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1.07rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 1px 14px #715cff1a;
+      transition: filter .18s;
+    }
+    .contact-section button:hover { filter: brightness(1.18);}
+    .contact-social {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 14px;
+    }
+    .contact-social a {
+      color: var(--accent);
+      font-size: 2rem;
+      text-decoration: none;
+      transition: color .19s;
+    }
+    .contact-social a:hover { color: var(--primary);}
+    /* Footer */
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 1rem;
+      margin: 34px 0 16px 0;
+      letter-spacing: .7px;
+    }
+    /* Responsive */
+    @media (max-width: 800px) {
+      main { padding: 18px 2vw 54px 2vw; }
+      .hero { flex-direction: column; align-items: flex-start;}
+      header { padding: 26px 3vw 9px 3vw; }
+    }
+    @media (max-width: 520px) {
+      .hero-img { width: 110px; height: 110px; }
+      .hero-content h1 { font-size: 1.7rem;}
+      .section-title { font-size: 1.3rem;}
+      .about-me, .contact-section { padding: 12px 6vw;}
+      .portfolio-item img { height: 110px; }
+      .timeline { padding-left: 10px;}
+    }
+  </style>
+  <!-- Icons (Feather) -->
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+  <!-- Header & Nav -->
+  <header>
+    <div class="logo">Victor Martins</div>
+    <nav>
+      <a href="#sobre">Sobre Mim</a>
+      <a href="#portfolio">Portfólio</a>
+      <a href="#experiencia">Experiência</a>
+      <a href="#skills">Habilidades</a>
+      <a href="#depoimentos">Depoimentos</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Foto Victor Martins" class="hero-img" id="hero-img">
+      <div class="hero-content">
+        <h1>Victor Martins</h1>
+        <h2>Designer Gráfico & Criador de Artes com IA</h2>
+        <p>
+          Ribeirão Preto - SP
+          <br>
+          Transformando ideias em imagens que vendem, conectam e encantam.
+        </p>
+      </div>
+    </section>
+
+    <!-- SOBRE -->
+    <section id="sobre">
+      <h2 class="section-title">Sobre Mim</h2>
+      <div class="about-me">
+        <p>
+          Sou designer gráfico especializado na criação de artes para redes sociais, com foco em marcas automotivas. Atendo empresas de todo o Brasil com agilidade, criatividade e um toque inovador usando inteligência artificial.<br><br>
+          Minha missão é transformar ideias em imagens que vendem, conectam e encantam. O diferencial do meu trabalho é a união entre design moderno e recursos avançados de IA, entregando resultados surpreendentes, sempre alinhados com a identidade e os objetivos de cada cliente.
+        </p>
+      </div>
+    </section>
+
+    <!-- PORTFÓLIO -->
+    <section id="portfolio">
+      <h2 class="section-title">Portfólio</h2>
+      <div class="portfolio-grid">
+        <div class="portfolio-item">
+          <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80" alt="Arte para redes sociais">
+          <div class="desc">Campanha para concessionária - Engajamento e vendas no Instagram</div>
+        </div>
+        <div class="portfolio-item">
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Arte de IA automotiva">
+          <div class="desc">Arte de IA para marca automotiva premium</div>
+        </div>
+        <div class="portfolio-item">
+          <img src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?auto=format&fit=crop&w=400&q=80" alt="Visual identidade social media">
+          <div class="desc">Identidade visual para rede de oficinas</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIÊNCIA PROFISSIONAL -->
+    <section id="experiencia">
+      <h2 class="section-title">Experiência Profissional</h2>
+      <div class="timeline">
+        <div class="timeline-entry">
+          <span>2022 - Atual</span> <br>
+          Freelancer | Artes para redes sociais e campanhas digitais <br>
+          <small>Clientes em diversos estados do Brasil</small>
+        </div>
+        <div class="timeline-entry">
+          <span>2020 - 2022</span> <br>
+          Designer Sênior | Agência Autocar <br>
+          <small>Projetos de identidade visual e campanhas automotivas</small>
+        </div>
+        <div class="timeline-entry">
+          <span>2018 - 2020</span> <br>
+          Designer Gráfico | Studio Criar <br>
+          <small>Atuação em criação de posts, banners e anúncios digitais</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- HABILIDADES -->
+    <section id="skills">
+      <h2 class="section-title">Habilidades</h2>
+      <div class="skills-list">
+        <div class="skill-badge">Photoshop</div>
+        <div class="skill-badge">Midjourney</div>
+        <div class="skill-badge">Illustrator</div>
+        <div class="skill-badge">IA Generativa</div>
+        <div class="skill-badge">Social Media</div>
+        <div class="skill-badge">Edição de Vídeo</div>
+        <div class="skill-badge">Criação de Identidade Visual</div>
+        <div class="skill-badge">Copywriting</div>
+      </div>
+    </section>
+
+    <!-- DEPOIMENTOS -->
+    <section id="depoimentos">
+      <h2 class="section-title">Depoimentos</h2>
+      <div class="testimonials">
+        <div class="testimonial-card">
+          "O Victor entrega as artes sempre com muita rapidez e criatividade. Nossas campanhas nunca foram tão eficientes!"<br>
+          <div class="client">Ana Souza</div>
+          <div class="role">Marketing - AutoMídia</div>
+        </div>
+        <div class="testimonial-card">
+          "Já testamos outros designers, mas o diferencial do Victor é realmente a visão inovadora e o domínio de IA." <br>
+          <div class="client">Lucas Mendes</div>
+          <div class="role">Diretor - PrimeCar</div>
+        </div>
+        <div class="testimonial-card">
+          "Trabalho impecável, comunicação fácil e resultados acima do esperado. Recomendo!"<br>
+          <div class="client">Fernanda Ribeiro</div>
+          <div class="role">Social Media - Oficina XPTO</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTATO -->
+    <section id="contato">
+      <h2 class="section-title">Contato</h2>
+      <div class="contact-section">
+        <form action="https://formspree.io/f/moqzvlee" method="POST">
+          <input type="text" name="name" placeholder="Seu nome" required>
+          <input type="email" name="email" placeholder="Seu e-mail" required>
+          <textarea name="message" rows="4" placeholder="Sua mensagem" required></textarea>
+          <button type="submit">Enviar Mensagem</button>
+        </form>
+        <div class="contact-social">
+          <a href="https://wa.me/559
